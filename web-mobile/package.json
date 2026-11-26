@@ -6,7 +6,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js --dev"
+    "dev": "node server.js --dev",
+    "check": "node --check server.js && node --check public/app.js",
+    "test": "npm run check"
   },
   "dependencies": {
     "express": "^5.1.0",
