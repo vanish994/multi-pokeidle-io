@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#090d18">
+  <meta name="description" content="Controle suas quatro sessões PokeIdle pelo celular.">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+  <title>PokeIdle Mobile</title>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div><div class="eyebrow">MULTI SESSION</div><h1>PokeIdle <span>Mobile</span></h1></div>
+      <button id="settings" class="icon-btn" aria-label="Configurações">⚙</button>
+    </header>
+    <section class="accounts" aria-label="Contas">
+      <div class="section-label">SUAS CONTAS <span id="statusText">Conectando…</span></div>
+      <div id="accountTabs" class="account-tabs">
+        <button data-account="1" class="account-tab active"><b>01</b><span>Conta 1</span><i></i></button>
+        <button data-account="2" class="account-tab"><b>02</b><span>Conta 2</span><i></i></button>
+        <button data-account="3" class="account-tab"><b>03</b><span>Conta 3</span><i></i></button>
+        <button data-account="4" class="account-tab"><b>04</b><span>Conta 4</span><i></i></button>
+      </div>
+    </section>
+    <section class="screen-card">
+      <div class="screen-head"><div><span class="live-dot"></span><strong id="activeName">Conta 1</strong><small id="activeState">Parada</small></div><button id="reload" class="small-btn">↻ Atualizar</button></div>
+      <div id="viewport" class="viewport">
+        <div id="placeholder" class="placeholder"><div class="pokeball">◉</div><strong>Conta ainda não iniciada</strong><p>Inicie a sessão para abrir o PokeIdle.</p><button id="start" class="primary">Iniciar conta</button></div>
+        <img id="gameScreen" alt="Tela remota do PokeIdle" draggable="false" hidden>
+        <div id="loading" class="loading" hidden>Carregando sessão…</div>
+      </div>
+      <div class="screen-foot"><span>SESSÃO ISOLADA</span><span id="screenHint">Toque na tela para interagir</span></div>
+    </section>
+    <div class="controls">
+      <button id="stop" class="secondary" disabled>■ Encerrar</button>
+      <button id="fullscreen" class="secondary">⛶ Tela cheia</button>
+    </div>
+    <p class="notice">Cada conta mantém seu próprio login. As sessões são executadas no servidor.</p>
+  </main>
+  <dialog id="settingsDialog">
+    <form method="dialog"><button class="close">×</button><h2>Conexão</h2><p>Informe o token de acesso configurado no servidor.</p><label for="token">Token do servidor</label><input id="token" type="password" autocomplete="off" placeholder="Token de acesso"><button id="saveToken" class="primary">Salvar</button></form>
+  </dialog>
+  <script src="/app.js"></script>
+</body>
+</html>
