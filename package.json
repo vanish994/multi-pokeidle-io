@@ -15,7 +15,7 @@
     "predist:release": "npm test",
     "postdist": "node tools/dev-release-info.js --remove",
     "web:start": "node web-mobile/server.js",
-    "web:dev": "WEB_DEV=1 node web-mobile/server.js"
+    "web:dev": "node web-mobile/server.js --dev"
   },
   "devDependencies": {
     "electron": "^45.2.3",
