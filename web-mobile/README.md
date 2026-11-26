@@ -70,3 +70,15 @@ The existing extension integrations, Twitch/Kick helpers, native dialogs, update
 - Reloading the PWA or restarting the service does not silently merge or erase profiles.
 - The interface works in a narrow Android viewport.
 - All remote-browser access is authenticated; no public CDP endpoint.
+
+
+## GitHub Pages (interface estática)
+
+O workflow `.github/workflows/deploy-pages.yml` publica automaticamente o conteúdo de `web-mobile/public` quando houver alterações nessa pasta na branch `web-mobile-mvp`.
+
+1. No GitHub, abra **Settings → Pages** e escolha **GitHub Actions** como fonte de publicação (se ainda não estiver configurado).
+2. Aguarde o workflow **Deploy PokeIdle Mobile to GitHub Pages** terminar.
+3. Abra o endereço publicado pelo GitHub Pages.
+4. Na engrenagem da interface, informe a URL HTTPS do servidor Node.js/VPS e o mesmo token `PKMOBILE_TOKEN` configurado nele.
+
+**Importante:** GitHub Pages hospeda somente a interface. Não executa `server.js`, Chromium ou as quatro sessões. O servidor precisa ficar online separadamente e permitir CORS para o domínio Pages do projeto. Não use `--dev` em um servidor público.
