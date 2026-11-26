@@ -7,12 +7,12 @@ const express = require('express');
 const { chromium } = require('playwright');
 
 const PORT = Number(process.env.PORT || 3000);
-const HOST = process.env.HOST || '0.0.0.0';
+const HOST = process.env.HOST || '127.0.0.1';
 const GAME_URL = 'https://pokeidle.io/';
 const MAX_ACCOUNTS = 4;
 const DATA_DIR = path.resolve(process.env.PKMOBILE_DATA || path.join(__dirname, 'data'));
 const TOKEN = process.env.PKMOBILE_TOKEN;
-const DEV = process.env.WEB_DEV === '1';
+const DEV = process.env.WEB_DEV === '1' || process.argv.includes('--dev');
 
 if (!TOKEN && !DEV) {
   console.error('PKMOBILE_TOKEN is required. Set a long random secret before exposing this server.');
