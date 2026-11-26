@@ -37,6 +37,23 @@ The service must never expose Chromium's debugging port directly to the public i
 4. **Compatibility:** audit desktop features one by one; port only those that make sense in a browser-hosted service.
 5. **Deployment:** HTTPS, secure secrets, persistent storage, resource limits, and operational documentation.
 
+## Run locally
+
+Requirements: Node.js 22.12+ and npm.
+
+```bash
+npm install
+npx playwright install chromium
+# Linux servers may also need: npx playwright install-deps chromium
+PKMOBILE_TOKEN="$(node -e \"console.log(require('node:crypto').randomBytes(32).toString('hex'))\")" npm run web:start
+```
+
+Open `http://localhost:3000` on the phone or computer. Enter the same `PKMOBILE_TOKEN` in the settings button (⚙). For local-only development, `npm run web:dev` skips API authentication; never use that mode on a public server.
+
+Persistent browser profiles are written to `web-mobile/data/profiles/account-1` through `account-4`. Back up this directory securely if you need to preserve logins. Do not publish it or commit it.
+
+The current MVP refreshes a JPEG screenshot about once per second and forwards basic taps, scrolls and keyboard input. This is functional for an initial test, but it is not a low-latency video stream. Put the service behind HTTPS before accessing it outside a trusted local network.
+
 ## Compatibility notes
 
 The desktop application is built around Electron `BaseWindow` / `WebContentsView` and Electron session partitions. A web version cannot simply reuse those APIs. The web service needs independent Chromium profiles and a remote-view layer.
