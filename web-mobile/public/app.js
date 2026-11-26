@@ -25,7 +25,7 @@ function render() {
   const item = current();
   $('activeName').textContent = item.title || 'Conta ' + active;
   $('activeState').textContent = item.running ? 'Ativa' : 'Parada';
-  $('activeState').previousElementSibling?.classList.toggle('on', !!item.running);
+  document.querySelector('.live-dot').classList.toggle('on', !!item.running);
   $('placeholder').hidden = !!item.running;
   $('gameScreen').hidden = !item.running;
   $('start').textContent = 'Iniciar conta';
@@ -76,7 +76,12 @@ const screen = $('gameScreen');
 screen.addEventListener('click', e => { const r = screen.getBoundingClientRect(); sendInput({ action: 'tap', x: (e.clientX-r.left)/r.width, y: (e.clientY-r.top)/r.height }); });
 screen.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
-  if (['Enter','Escape','Tab','Backspace','Delete','ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key) && current().running && !['INPUT'].includes(document.activeElement.tagName)) { e.preventDefault(); sendInput({ action: 'key', key: e.key }); }
+  if (!current().running || ['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+  if (['Enter','Escape','Tab','Backspace','Delete','ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) {
+    e.preventDefault(); sendInput({ action: 'key', key: e.key });
+  } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    sendInput({ action: 'type', text: e.key });
+  }
 });
 let touchY = 0;
 $('viewport').addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
