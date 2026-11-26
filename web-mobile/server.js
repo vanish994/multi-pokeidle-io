@@ -12,6 +12,7 @@ const GAME_URL = 'https://pokeidle.io/';
 const MAX_ACCOUNTS = 4;
 const DATA_DIR = path.resolve(process.env.PKMOBILE_DATA || path.join(__dirname, 'data'));
 const TOKEN = process.env.PKMOBILE_TOKEN;
+const ALLOWED_ORIGIN = process.env.PKMOBILE_ALLOWED_ORIGIN || 'https://vanish994.github.io';
 const DEV = process.env.WEB_DEV === '1' || process.argv.includes('--dev');
 
 if (!TOKEN && !DEV) {
@@ -22,6 +23,17 @@ if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true, mode: 0o
 
 const app = express();
 app.disable('x-powered-by');
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && origin === ALLOWED_ORIGIN) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  }
+  if (req.method === 'OPTIONS' && req.path.startsWith('/api')) return res.sendStatus(204);
+  next();
+});
 app.use(express.json({ limit: '32kb' }));
 app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }));
 
