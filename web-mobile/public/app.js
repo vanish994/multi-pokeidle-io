@@ -2,7 +2,7 @@ const $ = id => document.getElementById(id);
 let active = 1;
 let accounts = [];
 let token = sessionStorage.getItem('pkmobile-token') || localStorage.getItem('pkmobile-token') || '';
-let apiBase = (localStorage.getItem('pkmobile-api-base') || '').trim().replace(/\\/$/, '');
+let apiBase = (localStorage.getItem('pkmobile-api-base') || '').trim().replace(/\/$/, '');
 let poller = null;
 let refreshing = false;
 
@@ -71,7 +71,7 @@ $('stop').addEventListener('click', async () => { if (!confirm('Encerrar a sessÃ
 $('reload').addEventListener('click', capture);
 $('fullscreen').addEventListener('click', () => $('viewport').requestFullscreen?.());
 $('settings').addEventListener('click', () => $('settingsDialog').showModal());
-$('saveToken').addEventListener('click', () => { token = $('token').value.trim(); apiBase = $('apiBase').value.trim().replace(/\\/$/, ''); localStorage.setItem('pkmobile-token', token); localStorage.setItem('pkmobile-api-base', apiBase); });
+$('saveToken').addEventListener('click', () => { token = $('token').value.trim(); apiBase = $('apiBase').value.trim().replace(/\/$/, ''); localStorage.setItem('pkmobile-token', token); localStorage.setItem('pkmobile-api-base', apiBase); });
 $('token').value = token;
 $('apiBase').value = apiBase;
 const screen = $('gameScreen');
@@ -88,5 +88,5 @@ document.addEventListener('keydown', e => {
 let touchY = 0;
 $('viewport').addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
 $('viewport').addEventListener('touchend', e => { const dy = touchY-e.changedTouches[0].clientY; if (Math.abs(dy)>20) sendInput({ action:'scroll', delta:dy*2 }); }, { passive:true });
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 refreshStatus();
