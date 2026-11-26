@@ -27,7 +27,6 @@ app.use(express.static(path.join(__dirname, 'public'), { index: 'index.html' }))
 
 const sessions = new Map();
 const locks = new Map();
-let browser = null;
 let closing = false;
 
 function authorized(req, res, next) {
@@ -53,11 +52,12 @@ function sessionInfo(id) {
 async function withLock(id, fn) {
   const previous = locks.get(id) || Promise.resolve();
   let release;
-  const current = new Promise(resolve => { release = resolve; });
-  locks.set(id, previous.then(() => current));
+  const gate = new Promise(resolve => { release = resolve; });
+  const queued = previous.then(() => gate);
+  locks.set(id, queued);
   await previous;
   try { return await fn(); }
-  finally { release(); if (locks.get(id) === current) locks.delete(id); }
+  finally { release(); if (locks.get(id) === queued) locks.delete(id); }
 }
 
 async function startAccount(id) {
@@ -155,13 +155,9 @@ async function shutdown() {
   closing = true;
   await Promise.allSettled([...sessions.values()].map(s => s.context.close()));
   sessions.clear();
-  if (browser) await browser.close().catch(() => {});
   process.exit(0);
 }
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
 
-(async () => {
-  browser = await chromium.launch({ headless: true });
-  app.listen(PORT, HOST, () => console.log('PokeIdle Mobile server listening on ' + HOST + ':' + PORT));
-})().catch(err => { console.error(err); process.exit(1); });
+app.listen(PORT, HOST, () => console.log('PokeIdle Mobile server listening on ' + HOST + ':' + PORT));
