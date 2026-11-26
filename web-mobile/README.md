@@ -42,8 +42,10 @@ The service must never expose Chromium's debugging port directly to the public i
 Requirements: Node.js 22.12+ and npm.
 
 ```bash
+cd web-mobile
 npm install
 npx playwright install chromium
+cd ..
 # Linux servers may also need: npx playwright install-deps chromium
 PKMOBILE_TOKEN="$(node -e \"console.log(require('node:crypto').randomBytes(32).toString('hex'))\")" npm run web:start
 ```
