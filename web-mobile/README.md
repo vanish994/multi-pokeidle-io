@@ -45,6 +45,7 @@ Requirements: Node.js 22.12+ and npm.
 cd web-mobile
 npm install
 npx playwright install chromium
+npm test
 cd ..
 # Linux servers may also need: npx playwright install-deps chromium
 PKMOBILE_TOKEN="$(node -e \"console.log(require('node:crypto').randomBytes(32).toString('hex'))\")" npm run web:start
