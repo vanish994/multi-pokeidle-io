@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta name="theme-color" content="#090d18">
   <meta name="description" content="Controle suas quatro sessões PokeIdle pelo celular.">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
   <title>PokeIdle Mobile</title>
 </head>
 <body>
@@ -40,8 +40,8 @@
     <p class="notice">Cada conta mantém seu próprio login. As sessões são executadas no servidor.</p>
   </main>
   <dialog id="settingsDialog">
-    <form method="dialog"><button class="close">×</button><h2>Conexão</h2><p>Informe o token de acesso configurado no servidor.</p><label for="token">Token do servidor</label><input id="token" type="password" autocomplete="off" placeholder="Token de acesso"><button id="saveToken" class="primary">Salvar</button></form>
+    <form method="dialog"><button class="close">×</button><h2>Conexão</h2><p>Informe o token de acesso configurado no servidor.</p><label for="apiBase">URL do servidor (VPS)</label><input id="apiBase" type="url" autocomplete="url" placeholder="https://seu-servidor.com"><label for="token">Token do servidor</label><input id="token" type="password" autocomplete="off" placeholder="Token de acesso"><button id="saveToken" class="primary">Salvar</button></form>
   </dialog>
-  <script src="/app.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
