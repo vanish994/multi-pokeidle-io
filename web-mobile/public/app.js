@@ -2,11 +2,12 @@ const $ = id => document.getElementById(id);
 let active = 1;
 let accounts = [];
 let token = sessionStorage.getItem('pkmobile-token') || localStorage.getItem('pkmobile-token') || '';
+let apiBase = (localStorage.getItem('pkmobile-api-base') || '').trim().replace(/\\/$/, '');
 let poller = null;
 let refreshing = false;
 
 async function api(path, options = {}) {
-  const response = await fetch('/api' + path, {
+  const response = await fetch(apiBase + '/api' + path, {
     ...options,
     headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: 'Bearer ' + token } : {}), ...(options.headers || {}) }
   });
@@ -70,8 +71,9 @@ $('stop').addEventListener('click', async () => { if (!confirm('Encerrar a sessÃ
 $('reload').addEventListener('click', capture);
 $('fullscreen').addEventListener('click', () => $('viewport').requestFullscreen?.());
 $('settings').addEventListener('click', () => $('settingsDialog').showModal());
-$('saveToken').addEventListener('click', () => { token = $('token').value.trim(); localStorage.setItem('pkmobile-token', token); });
+$('saveToken').addEventListener('click', () => { token = $('token').value.trim(); apiBase = $('apiBase').value.trim().replace(/\\/$/, ''); localStorage.setItem('pkmobile-token', token); localStorage.setItem('pkmobile-api-base', apiBase); });
 $('token').value = token;
+$('apiBase').value = apiBase;
 const screen = $('gameScreen');
 screen.addEventListener('click', e => { const r = screen.getBoundingClientRect(); sendInput({ action: 'tap', x: (e.clientX-r.left)/r.width, y: (e.clientY-r.top)/r.height }); });
 screen.addEventListener('contextmenu', e => e.preventDefault());
